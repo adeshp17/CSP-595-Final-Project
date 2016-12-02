@@ -1,6 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 	<%@ page import="bean.*, database.MySqlJDBC, database.*,com.mongodb.*,java.util.*" %>
+	<%  
+	MySqlJDBC mysql = new MySqlJDBC(); 
+	User user = (User)request.getSession().getAttribute("userData");
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -37,12 +41,20 @@
 					</h1>
 					<div id="navigation">
 						<ul>
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Support</a></li>
-							<li><a href="Login.jsp">Login</a></li>
-							<li><a href="#">Sign Up</a></li>
-							<li><a href="#">Contact</a></li>
-						</ul>
+          <%if(user!=null) {%>	
+          <li><a href="UserHome.jsp">Home</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="MyOrders.html">My Orders</a></li>
+          <li><a href="#">Contact</a></li>
+          <li><a href="index.jsp?value=logout">Logout</a></li>
+          <%}else{ %>
+          <li><a href="index.jsp">Home</a></li>
+          <li><a href="#">Support</a></li>
+          <li><a href="Login.jsp">Login</a></li>
+          <li><a href="Signup.html">Sign Up</a></li>
+          <li><a href="#">Contact</a></li>
+          <%} %>
+        </ul>
 					</div>
 				</div>
 				<!-- End Header -->
@@ -71,26 +83,36 @@
 			<div class="shell">
 				<!-- Search, etc -->
 				<div class="options">
-					<div class="search">
-						<form action="#" method="post">
-							<span class="field"> <input type="text" class="blink"
-								value=" search here.." title="SEARCH" />
-							</span> <input type="text" class="search-submit" value="GO" />
-						</form>
-					</div>
-					<div class="right">
-						<span class="cart"> <a href="#" class="cart-ico">&nbsp;</a>
-							<strong>$0.00</strong>
-						</span> <span class="left more-links"> <a href="#">Checkout</a>
-					</div>
-				</div>
+      <div style="float: left; margin-top: 10px; padding-right: 7px;">
+    	 <p>Search IllinoisTech</p>
+      </div>
+      <div class="search">
+        <form action="#" method="post">
+          <span class="field">
+          <input type="text" class="blink" value=" search here.." title="SEARCH" />
+          </span>
+          <input type="text" class="search-submit" value="GO" />
+        </form>
+      </div>
+      <div style="float: left; margin-top: 10px; margin-left:220px; padding-right: 10px;">
+      	<%if(user!=null){ %>
+      	<p>Hello, <%=user.getUsername() %></p>
+      	<%} %>
+      </div>
+      <div class="right" style="float: left; margin-left:30px"> 
+      	<span class="cart"><a href="ViewCart.jsp" class="cart-ico">&nbsp;</a><strong>$0.00</strong></span> 
+      	<span class="left more-links"> <a href="UserHome.jsp">Products</a></span>
+      </div>
+    </div>
+    </div>	
+			
 				<!-- End Search, etc -->
 				<!-- Content -->
 				<div id="content">
 					<!--Login Container -->
 					<div id="container">
 						<div id="login_container">
-							 <h2>Top Rated Products</h2>
+							 <h2>Top Rated Products:</h2><br>
 
         <%
 
@@ -105,7 +127,7 @@
             tableData=bobj.getString("_id") + " " + bobj.getString("rating");
             %>
             <tr>
-                        <td> Top Rated Products: </td>
+                        
                         
                         <td><%=tableData%></td><br>
                         </tr>
@@ -114,12 +136,12 @@
         %>		
         
         
-        <h2>Top Sold Products </h2>
+        <br><h2>Top Sold Products: </h2><br>
           <%
           
             HashMap < String, Integer > orderedProducts = new HashMap < String, Integer > ();
           orderedProducts = MySqlJDBC.query2(orderedProducts);
-            for (HashMap.Entry < String, Integer > entry: orderedProducts.entrySet()) {
+            for (Map.Entry< String, Integer > entry: orderedProducts.entrySet()) {
                 String key = entry.getKey();
                 Integer value = entry.getValue();
                 String tableData1="";
@@ -129,11 +151,6 @@
                 <%
             }
             %>		
-							
-
-
-
-							
 						</div>
 						<!-- Brands -->
 						<div class="brands">

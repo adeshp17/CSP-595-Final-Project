@@ -722,9 +722,6 @@ public class MySqlJDBC implements DatabaseConstants {
 			e.printStackTrace();
 			return false;
 		}
-		return true;
-		
+		return true;	
 	}
-
-
 }

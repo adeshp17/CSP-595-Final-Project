@@ -37,7 +37,7 @@
       <div id="navigation">
         <ul>
           <li><a href="index.jsp">Home</a></li>
-          <li><a href="#">Support</a></li>
+          <li><a href="Trending.jsp">Trending</a></li>
           <li><a href="Login.jsp">Login</a></li>
           <li><a href="Signup.html">Sign Up</a></li>
           <li><a href="#">Contact</a></li>
@@ -325,6 +325,7 @@
             </div>
           </div>
           <!-- End Deal Match -->
+          
         </div>
         <!-- Brands -->
         <div class="brands">
