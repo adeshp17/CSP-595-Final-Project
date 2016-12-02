@@ -4,10 +4,20 @@
 <%@ page import="java.util.*"%>
 <%@ page import="java.io.*"%>
 <%@ page import="java.text.*"%>
-<%@ page import="java.time.*"%>
-<%@ page import="java.time.format.*"%>
 <%@page import="bean.Products, bean.Cart, bean.User"%>
 <%@page import="database.MySqlJDBC"%>
+
+<%
+	if(request.getSession().getAttribute("userData") == null || request.getSession().getAttribute("userCart") == null)
+		System.out.println("User/Cart null");
+	User user = (User)request.getSession().getAttribute("userData");
+    Cart cart = (Cart)request.getSession().getAttribute("userCart");
+    MySqlJDBC mysql = new MySqlJDBC();
+    cart.getProductList().removeAll(cart.getProductList());
+    request.getSession().setAttribute("userCart", cart);
+    mysql.emptyUserCart(user.getUid());
+    
+%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html>
@@ -34,10 +44,10 @@
 					<div id="navigation">
 						<ul>
 							<li><a href="UserHome.jsp">Home</a></li>
-							<li><a href="#">Support</a></li>
-							<li><a href="#">Login</a></li>
-							<li><a href="Signup.jsp">Sign Up</a></li>
-							<li><a href="#">Contact</a></li>
+          					<li><a href="#">Support</a></li>
+          					<li><a href="MyOrders.html">My Orders</a></li>
+          					<li><a href="#">Contact</a></li>
+          					<li><a href="index.jsp?value=logout">Logout</a></li>
 						</ul>
 					</div>
 				</div>
@@ -83,9 +93,9 @@
 					<div id="container">
 						
 							<%
-								User user = (User) request.getSession().getAttribute("userData");
+								/*User user = (User) request.getSession().getAttribute("userData");
 								MySqlJDBC mysql = new MySqlJDBC();
-								Cart cart = (Cart) request.getSession().getAttribute("userCart");
+								Cart cart = (Cart) request.getSession().getAttribute("userCart");*/
 								Products prod = new Products();
 								Orders ord = new Orders();
 								
@@ -114,10 +124,9 @@
 									date.setTime(date.getTime() + 14 * 1000 * 60 * 60 * 24);
 								%>
 								<%
-									DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM/dd/yyyy");
-									LocalDate localDate = LocalDate.now();
 									
-									
+									DateFormat dtf = new SimpleDateFormat("MM/dd/yyyy");
+									Date localDate = new Date();
 									
 									mysql.insertInvoice(orderid, user.getUid(), cc, sum, format.format(date),
 											dtf.format(localDate), shipAdd);
@@ -137,26 +146,29 @@
 									
 									
 								%>
-								
-								<h2>Congratulations. Below is the summary of your purchase</h2>
+								<div id="login_container">
+								<h2><font size="5" color = "red">Congratulations!!!!!</font></h2>
+								<br>
+								<h1><font size="5" color = "red">Below is your order summary</font></h1>
 								<br><br>
 								<h2>
 									Your Total Cost is
 									<%=sum%></h2>
 								<br> 
-								<div id="login_container">
+								
 								<table class='specialtable'>
 
 
 									<tr>
-										<td>Order ID is:</td>
-										<td><%=orderid%></td>
+										<td><h2><font size="3" color = "red">Order ID is:</font></h2></td>
+										<td><font size="3" color = "red"><%=orderid%></font></td></h2>
 									</tr>
-
+									<br><br>
 									<tr>
-										<td>Delivery Date is:</td>
-										<td><%=format.format(date)%></td>
+										<td><h2><font size="3" color = "red">Delivery Date is:</font><h2></td>
+										<td><h2><font size="3" color = "red"><%=format.format(date)%></font></h2></td>
 									</tr>
+									<br><br>
 									<%
 									for(Map.Entry<String, Products> m : cartMap.entrySet()) {
 										prod = m.getValue();
@@ -164,8 +176,8 @@
 									 <div class="image"> 
                   	<img src="<%=prod.getImagePath() %>" alt="" style="width: 150px; height: 150px;"/>
                   </div>
-                  <br></br><p>Product Name: <span><%= prod.getProductName() %></span></p>
-									
+                  <br></br><p><h2>Product Name: <span><%= prod.getProductName() %> </h2></span></p>
+									<br>
 									<%} %>
 									 
 				

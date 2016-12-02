@@ -154,10 +154,17 @@
                  <p> Discount: <span><%= discount%></span></p>
                  <br></br>
                  <center>
-                  <form class = 'submit-button' method = 'post' action = 'ViewCart.jsp'>		           
+                  <form class = 'submit-button' method = 'post' action = 'ViewCart.jsp'>	
+                  		<%
+			            	if(user == null){
+			            %>
+			            	<input type="hidden" name="action" value="kindlyLogin"/>
+			            <%}else{ %>
+			            <input type="hidden" name="action" value="addToCart"/>
+			            <%} %>	           
                   		<input type="hidden" name="productId" value="<%=productId%>"/>
-                  		<input type="hidden" name="action" value="addToCart"/>
-			            <input class = 'submit-button' type = 'submit'  value = 'AddToCart' style="width: 100px; height: 30px;"/>
+                  		
+			            <input class = 'submit-button' type = 'submit'  value = 'Add To Cart' style="width: 100px; height: 30px;"/>
 			      </form>
 			     </center>
                </li>
@@ -264,14 +271,13 @@
           <!-- End View  Review -->
           <!-- Third Tab Content -->
           <div class="tab-content" style="display:block;">
-            <div class="items">
-              <div class="cl">&nbsp;</div>
+             <div id="login_container">
       
        
        <ul>
        <li>
                   
-                  <form method='post' action='WriteReviewSuccess.jsp'>
+                 <%--  <form method='post' action='WriteReviewSuccess.jsp'>
 			<br></br>
 			<h3>Write Review</h3>
 			<table class='specialtable'>
@@ -294,13 +300,44 @@
            	</td>
 			</tr>
 			</table>
-			</form>
-			        
+			</form> --%>
+			<!-- <div id="login_container" align="left"> -->
+			<h2><font size="5" color = "red">Write Review</font></h2>
+			<br></br>
+      		<form action='WriteReviewSuccess.jsp' method="post">
+      			
+						<br>
+						<label><b>Product Name: </b></label><%= productName %><br> 
+						
+						<br>
+						
+						<label><b>Product Price: </b><%= price %></label><br> 
+						
+						<br></br>
+						<label><b>Username</b></label><br></br>
+						<input type="text" placeholder="Enter username" name="uid" id = "uid" required><br>
+						<br></br>
+						<label><b>ReviewRating (1 to 5):</b></label><br></br>
+						<input type="text" placeholder="Enter Ratings" name="rating" id = "rating" required><br>
+						<br>
+						<label><b>ReviewDate: </b></label><br></br>
+						<input type="date" placeholder="Date" name="rdate" id = "rdate" required><br>
+						<br>
+						<label><b>Review Text</b></label><br></br>
+						<input type="text" placeholder="Enter Review" name="reviewtext" id = "reviewtext" required><br>
+						<br></br>
+						<button type="submit">Submit Review</button><br></br>
+						<input type='hidden' name = 'productName' value = '<%=productName %>'/>
+           				 <input type='hidden' name = 'productPrice' value = '<%= price %>'/>
+          				  <input type='hidden' name = 'productImage' value = '<%= image %>'/>
+           				 <input type='hidden' name = 'productDiscount' value = '<%= discount %>'/>
+					</form>
+             </div>
                   </li>
                   </ul>
                  
-                  </div>
-                  </div>
+                  
+                  <!--</div>  -->
                   
           <!-- End Write Review -->
         </div>
@@ -324,5 +361,6 @@
     <!-- End Content -->
   </div>
 <!-- End Main -->
+</div>
 </body>
 </html>

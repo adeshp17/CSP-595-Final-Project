@@ -31,13 +31,13 @@
 				}
 				if (user.getRole().equalsIgnoreCase("manager")||user.getRole().equalsIgnoreCase("retailer")) {
 					System.out.println("Logged in.");
-					cart = mysql.getUserCart(user.getUid());
+					/*cart = mysql.getUserCart(user.getUid());
 					request.getSession().setAttribute("userCart", cart);
-					request.getSession().setAttribute("userProf", "complete");
+					request.getSession().setAttribute("userProf", "complete");*/
 					
 					//Creating retailer session
 					retailer = mysql.getRetailerData(email);
-					if(retailer.getFlag().equals("0")){
+					if(retailer.getFlag().equals("0") || retailer.getFlag().equals("2")){
 						response.sendRedirect("RetailerStatus.jsp?status="+retailer.getFlag());
 					}
 					session.setAttribute("retailer", retailer);
@@ -47,7 +47,7 @@
 				e.printStackTrace();
 			}
 		} else {
-			request.setAttribute("status", "value");
+			request.setAttribute("status", "invalid");
 			request.getRequestDispatcher("Login.jsp").forward(request,
 					response);
 		}

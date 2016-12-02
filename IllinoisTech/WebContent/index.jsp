@@ -4,7 +4,15 @@
 <%@ page import="java.io.*"%>
 <%@page import="bean.Products, utility.DealMatchServlet"%>
 <%@page import="database.MySqlJDBC"%>  
-<%  MySqlJDBC mysql = new MySqlJDBC(); %>
+<%  
+	MySqlJDBC mysql = new MySqlJDBC(); 
+	if(request.getParameter("value")!=null){
+		if(request.getParameter("value").equals("logout")){
+			
+			request.getSession().invalidate();
+		}
+	}
+%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -25,10 +33,10 @@
   <div class="shell">
     <!-- Header -->
     <div id="header">
-      <h1 id="logo"><a href="#">IllinoisTech Sporting Goods</a></h1>
+      <h1 id="logo"><a href="index.jsp">IllinoisTech Sporting Goods</a></h1>
       <div id="navigation">
         <ul>
-          <li><a href="#">Home</a></li>
+          <li><a href="index.jsp">Home</a></li>
           <li><a href="#">Support</a></li>
           <li><a href="Login.jsp">Login</a></li>
           <li><a href="Signup.html">Sign Up</a></li>
@@ -72,7 +80,7 @@
 			</div>	
 			<div id="autocompleteContainer" style="height: auto; float: top; margin-top: 25px;">
 					<table id="complete-table" 
-					style="position: absolute; border-collapse: collapse; background: white; font-size: 14px; width: 195px;">
+					style="position: absolute; border-collapse: collapse; background: white; font-size: 14px; width: 195px; z-index: 1">
 					</table>
 			</div>	
 	  </div>
@@ -144,15 +152,15 @@
               
                 <li>
                   <div class="image"> <img src="<%=p.getImagePath() %>" alt="" style="width: 150px; height: 150px;"/></div>
-                  <br><p>Product Name : <span><%= p.getProductName() %></span> 
-                  <br><p> Retailer Name : <span><%= p.getRetailerName()%></span>
+                  <br></br><p>Product Name : <span><%= p.getProductName() %></span> 
+                  <br></br><p> Retailer Name : <span><%= p.getRetailerName()%></span>
                    <form class = 'submit-button' method = 'post' action = 'ProductInfo.jsp'>
                    		<input type='hidden' name = 'productId' value = '<%=p.getPid()%>'/>
 			            <input type='hidden' name = 'productName' value = '<%=p.getProductName() %>' />
 			            <input type='hidden' name = 'retailerName' value = '<%=p.getRetailerName()%>' />
 			            <input type='hidden' name = 'productPrice' value = '<%=p.getPrce() %>' />
 			            <input type='hidden' name = 'productImage' value = '<%=p.getImagePath() %>' />
-			            <input type='hidden' name = 'discount' value = '<%=p.getDiscount() %>' /><br>			           
+			            <input type='hidden' name = 'discount' value = '<%=p.getDiscount() %>' /><br></br>			           
 			            <input class = 'submit-button' type = 'submit'  value = 'More Details' style="margin-left: 20px; width: 100px; height: 30px;"/>
 			        </form>
                 </li>
@@ -287,7 +295,7 @@
 						prod = m.getValue();
 						%>
 						<tr>
-								<td><img class="header-image" src="images/<%=prod.getImagePath()%>" width="300" height="200" alt="Buildings" />
+								<td><img class="header-image" src="<%=prod.getImagePath()%>" width="300" height="200" alt="Buildings" />
 								</td>
 								<td>
 								<h5 style="text-decoration: underline; color: blue;">

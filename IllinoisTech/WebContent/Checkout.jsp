@@ -45,11 +45,11 @@
 					</h1>
 					<div id="navigation">
 						<ul>
-							<li><a href="#">Home</a></li>
-							<li><a href="#">Support</a></li>
-							<li><a href="#">Login</a></li>
-							<li><a href="Signup.jsp">Sign Up</a></li>
-							<li><a href="#">Contact</a></li>
+							<li><a href="UserHome.jsp">Home</a></li>
+          					<li><a href="#">Support</a></li>
+          					<li><a href="MyOrders.html">My Orders</a></li>
+          					<li><a href="#">Contact</a></li>
+          					<li><a href="index.jsp?value=logout">Logout</a></li>
 						</ul>
 					</div>
 				</div>
@@ -94,7 +94,7 @@
       <!--Login Container -->
       <div id="container">
       	<div id="login_container">
-      	<p align="center" style="color:red;" >Below is your order summary</p>
+      	<p align="center" style="color:red;" > <font size="5" >Below is your order summary</font></p>
 					<% int sum;
 					sum = 0;
 					
@@ -122,7 +122,7 @@
 					int total ;
 					//System.out.println(cartMap.size());
 					System.out.println("Product id : "+prod.getPid());
-					total=Integer.parseInt(price)-(Integer.parseInt(price)*Integer.parseInt(discount)/100);
+					total=Integer.parseInt(quantity)*Integer.parseInt(price)-(Integer.parseInt(price)*Integer.parseInt(discount)/100);
 					sum =sum + total;
               %>
 			<br>
@@ -157,7 +157,7 @@
 				<% } 
 					request.getSession().setAttribute("orderlist", productInOrder);
 				%>	
-				<p align="center" style="color:red;" >Your total Checkout price is <%= sum %></p>
+				<p align="center" style="color:red;" ><font size="5" >Your total Checkout price is $<%= sum %></font></p>
 				<form action='Buy.jsp' >
 				<button type="submit">Proceed</button>
 				<input type="hidden" name="sum" value="<%=sum%>"/>
